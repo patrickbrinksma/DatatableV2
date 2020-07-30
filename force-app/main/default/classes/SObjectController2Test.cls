@@ -29,11 +29,13 @@ public with sharing class SObjectController2Test {
         SObjectController2.SObjectIdRequests req = new SObjectController2.SObjectIdRequests();
         req.sObjectName = 'Account';
         req.counter = 0;
+        req.nrOfIds = 50;
 
         List<SObjectController2.SObjectIdResults> results = SObjectController2.generateSObjectId(new List<SObjectController2.SObjectIdRequests>{req});
-        Id accntId = results[0].sobjectId;
+        List<Id> accntIds = results[0].sobjectIds;
 
-        System.assertEquals('001', String.valueOf(accntId).left(3));
-    }    
+        System.assertEquals(req.nrOfIds, accntIds.size());
+        System.assertEquals('001', String.valueOf(accntIds[0]).left(3));
+    }
 
 }
