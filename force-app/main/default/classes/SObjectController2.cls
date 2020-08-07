@@ -335,14 +335,14 @@ public with sharing class SObjectController2 {
     }
 
 	/**
-	 * Generate a fake Salesforce Ids for the given SObjectType
+	 * Generate a collection of Salesforce Ids for the given SObjectType
      * Copyright (c) 2014, FinancialForce.com, inc
      * All rights reserved.
      * Adopted from FinancialForce.com, inc
      * Original class can be found here: https://github.com/SonarSource/apex-test-sources/blob/master/projects/fflib-apex-mocks/src/classes/fflib_IDGenerator.cls
 	 */  
-    @InvocableMethod(label='Generate SObject Ids' description='Generate Virtual Record Ids for a given SObjectType')
-	public static List<SObjectIdResults> generateSObjectIds(List<SObjectIdRequests> requests)
+    @InvocableMethod(label='Generate SObject Ids' description='Generate a collection of object Ids for a given SObjectType')
+	public static List<SObjectIdsResults> generateSObjectIds(List<SObjectIdsRequests> requests)
 	{
         final String ID_PATTERN = '000000000000';
 
@@ -365,18 +365,19 @@ public with sharing class SObjectController2 {
             offSet++;
         }
 
-        SObjectIdResults result = new SObjectIdResults();
+        SObjectIdsResults result = new SObjectIdsResults();
         result.sobjectIds = objectIds;
-        return new List<SObjectIdResults>{result};
+        result.sobjectId = objectIds[0];
+        return new List<SObjectIdsResults>{result};
 
     }
-    
+  
     /*
      * Class for the input variables of the invocable method generateSObjectIds
      */ 
-	public class SObjectIdRequests
+	public class SObjectIdsRequests
     {
-		@InvocableVariable(label='Current Counter' description='Counter which is used to generate the virtual record Id' required=true)
+		@InvocableVariable(label='Current Counter' description='Counter which is used to generate the object Id' required=true)
 		public Integer counter;
 		@InvocableVariable(label='Object API Name' description='API Name of Object' required=true)
         public String sObjectName;
@@ -386,11 +387,14 @@ public with sharing class SObjectController2 {
 
     /*
      * Class for the output variables of the invocable method generateSObjectIds
+     * for returning a list of generated object ids
      */     
-    public class SObjectIdResults
+    public class SObjectIdsResults
     {
       @InvocableVariable(label='Generated Object Ids' description='Object Ids for the given SObjectType' required=true)
       public List<Id> sobjectIds;
+      @InvocableVariable(label='Generated Object Id' description='Object Id for the given SObjectType' required=true)
+      public Id sobjectId;      
 	}    
 
 }
